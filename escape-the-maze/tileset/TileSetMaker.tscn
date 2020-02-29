@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://assets/sokoban_tilesheet.png" type="Texture" id=1]
+
+[sub_resource type="RectangleShape2D" id=1]
+
+[node name="TileSetMaker" type="Node2D"]
+
+[node name="crate_brown" type="Sprite" parent="."]
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 384, 0, 64, 64 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="StaticBody2D" type="StaticBody2D" parent="crate_brown"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="crate_brown/StaticBody2D"]
+scale = Vector2( 3, 3 )
+shape = SubResource( 1 )
