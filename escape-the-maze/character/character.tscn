@@ -1,11 +1,12 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://character/character.gd" type="Script" id=1]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 16, 16 )
 
 [sub_resource type="Animation" id=2]
 resource_name = "down"
-loop = true
 step = 0.2
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -69,14 +70,27 @@ tracks/0/keys = {
 }
 
 [node name="Character" type="Area2D"]
+script = ExtResource( 1 )
+speed = 3
 
 [node name="Sprite" type="Sprite" parent="."]
 vframes = 4
 hframes = 5
-frame = 19
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )
+
+[node name="RayCastUp" type="RayCast2D" parent="."]
+cast_to = Vector2( 0, -64 )
+
+[node name="RayCastDown" type="RayCast2D" parent="."]
+cast_to = Vector2( 0, 64 )
+
+[node name="RayCastLeft" type="RayCast2D" parent="."]
+cast_to = Vector2( -64, 0 )
+
+[node name="RayCastRight" type="RayCast2D" parent="."]
+cast_to = Vector2( 64, 0 )
 
 [node name="MoveTween" type="Tween" parent="."]
 
@@ -85,3 +99,4 @@ anims/down = SubResource( 2 )
 anims/left = SubResource( 3 )
 anims/right = SubResource( 4 )
 anims/up = SubResource( 5 )
+[connection signal="tween_completed" from="MoveTween" to="." method="_on_MoveTween_tween_completed"]
