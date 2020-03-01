@@ -2,6 +2,7 @@ extends Area2D
 
 var textures = {'coin': 'res://assets/coin.png',
                 'key_red': 'res://assets/keyRed.png',
+                'key_green': 'res://assets/keyGreen.png',
                 'star': 'res://assets/star.png'}
 
 var type
