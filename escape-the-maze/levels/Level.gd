@@ -32,16 +32,17 @@ func spawn_items():
         var p = Pickup.instance()
         p.init(type, pos)
         add_child(p)
+        p.connect('coin_pickup', $HUD, 'update_score')
 
 func _on_Player_grabbed_key():
   for cell in doors:
     $Walls.set_cellv(cell, -1)
 
 func _on_Player_win():
-  pass
+  Global.next_level()
 
 func game_over():
-  pass
+  Global.game_over()
 
 func _ready():
   randomize()
