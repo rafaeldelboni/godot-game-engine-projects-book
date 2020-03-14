@@ -4,7 +4,8 @@ var highscore = 0
 var score_file = "user://highscore.txt"
 
 var score = 0
-var levels = ['res://levels/Level1.tscn']
+var levels = ['res://levels/Level1.tscn',
+              'res://levels/Level2.tscn']
 var current_level
 
 var start_screen = 'res://ui/StartScreen.tscn'

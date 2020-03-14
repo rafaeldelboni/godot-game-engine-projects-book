@@ -2,7 +2,8 @@ extends "res://character/character.gd"
 
 signal moved
 signal dead
-signal grabbed_key
+signal grabbed_key_green
+signal grabbed_key_red
 signal win
 
 func _process(_delta):
@@ -25,9 +26,9 @@ func _on_Player_area_entered(area):
   if area.has_method('pickup'):
     area.pickup()
     if area.type == 'key_red':
-      emit_signal('grabbed_key')
+      emit_signal('grabbed_key_red')
     if area.type == 'key_green':
-      emit_signal('grabbed_key')
+      emit_signal('grabbed_key_green')
     if area.type == 'star':
       $Win.play()
       $CollisionShape2D.disabled = true
