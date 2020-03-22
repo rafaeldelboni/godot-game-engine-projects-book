@@ -12,12 +12,15 @@ _data = {
 }
 
 [node name="Main" type="Node2D"]
+pause_mode = 2
 script = ExtResource( 2 )
 Rock = ExtResource( 4 )
 
 [node name="HUD" parent="." instance=ExtResource( 5 )]
+pause_mode = 1
 
 [node name="Background" type="Sprite" parent="."]
+position = Vector2( -424, -248 )
 texture = ExtResource( 1 )
 centered = false
 __meta__ = {
@@ -25,6 +28,7 @@ __meta__ = {
 }
 
 [node name="Player" parent="." instance=ExtResource( 3 )]
+pause_mode = 1
 position = Vector2( 500, 300 )
 
 [node name="RockPath" type="Path2D" parent="."]
@@ -36,4 +40,8 @@ __meta__ = {
 [node name="RockSpawn" type="PathFollow2D" parent="RockPath"]
 
 [node name="Rocks" type="Node2D" parent="."]
+pause_mode = 1
+[connection signal="start_game" from="HUD" to="." method="new_game"]
+[connection signal="dead" from="Player" to="." method="game_over"]
+[connection signal="lives_changed" from="Player" to="HUD" method="update_lives"]
 [connection signal="shoot" from="Player" to="." method="_on_Player_shoot"]

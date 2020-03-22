@@ -12,7 +12,7 @@ func show_message(message):
   $MessageTimer.start()
 
 func update_score(value):
-  $MarginContainer/MarginContainer/HBoxContainer/ScoreLabel.text = str(value)
+  $MarginContainer/HBoxContainer/ScoreLabel.text = str(value)
 
 func update_lives(value):
   for item in range(3):
