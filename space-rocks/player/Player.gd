@@ -35,20 +35,16 @@ func start():
 func change_state(new_state):
   match new_state:
     INIT:
-      print('init')
       $CollisionShape2D.set_deferred("disabled", true)
       $Sprite.modulate.a = 0.5
     ALIVE:
-      print('alive')
       $CollisionShape2D.set_deferred("disabled", false)
       $Sprite.modulate.a = 1.0
     INVULNERABLE:
-      print('invulnerable')
       $CollisionShape2D.set_deferred("disabled", true)
       $Sprite.modulate.a = 0.5
       $InvulnerabilityTimer.start()
     DEAD:
-      print('dead')
       $CollisionShape2D.set_deferred("disabled", true)
       $Sprite.hide()
       linear_velocity = Vector2()

@@ -1,9 +1,9 @@
 extends Node2D
 
 export (PackedScene) var Rock
+export (PackedScene) var Enemy
 
 var screensize = Vector2()
-
 var level = 0
 var score = 0
 var playing = false
@@ -13,6 +13,8 @@ func new_level():
   $HUD.show_message("Wave %s" % level)
   for _i in range(level):
     spawn_rock(3)
+  $EnemyTimer.wait_time = rand_range(5, 10)
+  $EnemyTimer.start()
 
 func new_game():
   for rock in $Rocks.get_children():
@@ -79,3 +81,10 @@ func _input(event):
       $HUD/MessageLabel.text = ""
       $HUD/MessageLabel.hide()
 
+func _on_EnemyTimer_timeout():
+  var e = Enemy.instance()
+  add_child(e)
+  e.target = $Player
+  e.connect('shoot', self, '_on_Player_shoot')
+  $EnemyTimer.wait_time = rand_range(20, 40)
+  $EnemyTimer.start()
