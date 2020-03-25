@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://assets/space_background.png" type="Texture" id=1]
 [ext_resource path="res://main/Main.gd" type="Script" id=2]
@@ -6,6 +6,9 @@
 [ext_resource path="res://rock/Rock.tscn" type="PackedScene" id=4]
 [ext_resource path="res://ui/HUD.tscn" type="PackedScene" id=5]
 [ext_resource path="res://enemy/Enemy.tscn" type="PackedScene" id=6]
+[ext_resource path="res://assets/sounds/zap2a.ogg" type="AudioStream" id=7]
+[ext_resource path="res://assets/sounds/synthetic_thunder_short.wav" type="AudioStream" id=8]
+[ext_resource path="res://assets/sounds/Funky-Gameplay_Looping.ogg" type="AudioStream" id=9]
 
 [sub_resource type="Curve2D" id=1]
 _data = {
@@ -33,7 +36,6 @@ __meta__ = {
 }
 
 [node name="Player" parent="." instance=ExtResource( 3 )]
-pause_mode = 1
 position = Vector2( 500, 300 )
 
 [node name="RockPath" type="Path2D" parent="."]
@@ -49,6 +51,18 @@ pause_mode = 1
 
 [node name="EnemyTimer" type="Timer" parent="."]
 one_shot = true
+
+[node name="ExplodeSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 8 )
+volume_db = -15.0
+
+[node name="LevelupSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 7 )
+volume_db = -15.0
+
+[node name="Music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 9 )
+volume_db = -15.0
 [connection signal="start_game" from="HUD" to="." method="new_game"]
 [connection signal="dead" from="Player" to="." method="game_over"]
 [connection signal="lives_changed" from="Player" to="HUD" method="update_lives"]

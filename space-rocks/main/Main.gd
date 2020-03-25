@@ -9,14 +9,17 @@ var score = 0
 var playing = false
 
 func new_level():
+  $LevelupSound.play()
   level += 1
   $HUD.show_message("Wave %s" % level)
   for _i in range(level):
     spawn_rock(3)
-  $EnemyTimer.wait_time = rand_range(5, 10)
+  # $EnemyTimer.wait_time = rand_range(5, 10)
+  $EnemyTimer.wait_time = 1
   $EnemyTimer.start()
 
 func new_game():
+  $Music.play()
   for rock in $Rocks.get_children():
     rock.queue_free()
   level = 0
@@ -29,6 +32,8 @@ func new_game():
   new_level()
 
 func game_over():
+  $ExplodeSound.play()
+  $Music.stop()
   playing = false
   $HUD.game_over()
 
@@ -54,6 +59,7 @@ func _ready():
   $Player.screensize = screensize
 
 func _on_Rock_exploded(size, radius, pos, vel):
+  $ExplodeSound.play()
   score += size * 10
   $HUD.update_score(score)
   if size <= 1:
@@ -63,6 +69,11 @@ func _on_Rock_exploded(size, radius, pos, vel):
     var newpos = pos + dir * radius
     var newvel = dir * vel.length() * 1.1
     spawn_rock(size - 1, newpos, newvel)
+
+func _on_Enemy_exploded():
+  $ExplodeSound.play()
+  score += level * 10
+  $HUD.update_score(score)
 
 func _on_Player_shoot(bullet, pos, dir):
   var b = bullet.instance()
@@ -83,8 +94,9 @@ func _input(event):
 
 func _on_EnemyTimer_timeout():
   var e = Enemy.instance()
-  add_child(e)
   e.target = $Player
   e.connect('shoot', self, '_on_Player_shoot')
+  e.connect('exploded', self, '_on_Enemy_exploded')
+  add_child(e)
   $EnemyTimer.wait_time = rand_range(20, 40)
   $EnemyTimer.start()

@@ -45,6 +45,7 @@ func change_state(new_state):
       $Sprite.modulate.a = 0.5
       $InvulnerabilityTimer.start()
     DEAD:
+      $EngineSound.stop()
       $CollisionShape2D.set_deferred("disabled", true)
       $Sprite.hide()
       linear_velocity = Vector2()
@@ -52,6 +53,7 @@ func change_state(new_state):
   self.set_deferred("state", new_state)
 
 func shoot():
+  $LaserSound.play()
   if state == INVULNERABLE:
     return
   emit_signal("shoot", Bullet, $Muzzle.global_position, rotation)
@@ -64,6 +66,10 @@ func get_input():
     return
   if Input.is_action_pressed("thrust"):
     thrust = Vector2(engine_power, 0)
+    if not $EngineSound.playing:
+      $EngineSound.play()
+  else:
+    $EngineSound.stop()
   rotation_dir = 0
   if Input.is_action_pressed("rotate_right"):
     rotation_dir += 1
