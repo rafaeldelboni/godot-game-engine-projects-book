@@ -6,6 +6,20 @@ onready var lives_counter = [$MarginContainer/HBoxContainer/LivesCounter/L1,
                              $MarginContainer/HBoxContainer/LivesCounter/L2,
                              $MarginContainer/HBoxContainer/LivesCounter/L3]
 
+onready var ShieldBar = $MarginContainer/HBoxContainer/ShieldBar
+var red_bar = preload("res://assets/barHorizontal_red_mid 200.png")
+var green_bar = preload("res://assets/barHorizontal_green_mid 200.png")
+var yellow_bar = preload("res://assets/barHorizontal_yellow_mid 200.png")
+
+func update_shield(value):
+  value *= 100
+  ShieldBar.texture_progress = green_bar
+  if value < 40:
+    ShieldBar.texture_progress = red_bar
+  elif value < 70:
+    ShieldBar.texture_progress = yellow_bar
+  ShieldBar.value = value
+
 func show_message(message):
   $MessageLabel.text = message
   $MessageLabel.show()

@@ -3,12 +3,16 @@ extends RigidBody2D
 signal dead
 signal shoot
 signal lives_changed
+signal shield_changed
 
 export (PackedScene) var Bullet
 export (float) var fire_rate
 
 export (int) var engine_power
 export (int) var spin_power
+
+export (int) var max_shield
+export (float) var shield_regen
 
 var body_inertia = 450
 var thrust = Vector2()
@@ -25,11 +29,32 @@ var lives = 0 setget set_lives
 
 func set_lives(value):
   lives = value
+  self.shield = max_shield
   emit_signal("lives_changed", lives)
+
+func take_damage(value):
+  self.lives -= value
+  $Explosion.show()
+  $Explosion/AnimationPlayer.play("explosion")
+  if lives <= 0:
+    change_state(DEAD)
+  else:
+    change_state(INVULNERABLE)
+
+var shield = 0 setget set_shield
+
+func set_shield(value):
+  if value > max_shield:
+    value = max_shield
+  shield = value
+  emit_signal("shield_changed", self.shield / max_shield)
+  if shield <= 0:
+    take_damage(1)
 
 func start():
   change_state(ALIVE)
   $Sprite.show()
+  self.shield = max_shield
   self.lives = 3
 
 func change_state(new_state):
@@ -82,10 +107,12 @@ func get_input():
 
 func _ready():
   screensize = get_viewport().get_visible_rect().size
+  self.shield = max_shield
   change_state(INIT)
   $GunTimer.wait_time = fire_rate
 
-func _process(_delta):
+func _process(delta):
+  self.shield += shield_regen * delta
   get_input()
 
 func _integrate_forces(physics_state):
@@ -121,10 +148,4 @@ func _on_AnimationPlayer_animation_finished(_anim_name):
 func _on_Player_body_entered(body):
   if body.is_in_group('rocks'):
     body.explode()
-    $Explosion.show()
-    $Explosion/AnimationPlayer.play("explosion")
-    self.lives -= 1
-    if lives <= 0:
-      change_state(DEAD)
-    else:
-      change_state(INVULNERABLE)
+    self.shield -= body.size * 25

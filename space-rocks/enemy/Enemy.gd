@@ -59,5 +59,5 @@ func _on_GunTimer_timeout():
 
 func _on_Enemy_body_entered(body):
   if body.name == 'Player':
-    pass
-  explode()
+    body.shield -= 50
+    explode()

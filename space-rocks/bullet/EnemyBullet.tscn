@@ -5,7 +5,9 @@
 
 [sub_resource type="CapsuleShape2D" id=1]
 
-[node name="EnemyBullet" type="Area2D"]
+[node name="EnemyBullet" type="Area2D" groups=[
+"bullets",
+]]
 pause_mode = 1
 script = ExtResource( 1 )
 __meta__ = {

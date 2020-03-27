@@ -50,6 +50,8 @@ Bullet = ExtResource( 3 )
 fire_rate = 0.25
 engine_power = 500
 spin_power = 15000
+max_shield = 100
+shield_regen = 5.0
 
 [node name="Sprite" type="Sprite" parent="."]
 rotation = 1.5708

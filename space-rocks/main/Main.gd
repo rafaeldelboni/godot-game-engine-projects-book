@@ -14,14 +14,15 @@ func new_level():
   $HUD.show_message("Wave %s" % level)
   for _i in range(level):
     spawn_rock(3)
-  # $EnemyTimer.wait_time = rand_range(5, 10)
-  $EnemyTimer.wait_time = 1
+  $EnemyTimer.wait_time = rand_range(5, 10)
   $EnemyTimer.start()
 
 func new_game():
   $Music.play()
   for rock in $Rocks.get_children():
     rock.queue_free()
+  for enemy in $Enemies.get_children():
+    enemy.queue_free()
   level = 0
   score = 0
   $HUD.update_score(score)
@@ -97,6 +98,6 @@ func _on_EnemyTimer_timeout():
   e.target = $Player
   e.connect('shoot', self, '_on_Player_shoot')
   e.connect('exploded', self, '_on_Enemy_exploded')
-  add_child(e)
+  $Enemies.add_child(e)
   $EnemyTimer.wait_time = rand_range(20, 40)
   $EnemyTimer.start()

@@ -49,6 +49,8 @@ __meta__ = {
 [node name="Rocks" type="Node2D" parent="."]
 pause_mode = 1
 
+[node name="Enemies" type="Node2D" parent="."]
+
 [node name="EnemyTimer" type="Timer" parent="."]
 one_shot = true
 
@@ -66,5 +68,6 @@ volume_db = -15.0
 [connection signal="start_game" from="HUD" to="." method="new_game"]
 [connection signal="dead" from="Player" to="." method="game_over"]
 [connection signal="lives_changed" from="Player" to="HUD" method="update_lives"]
+[connection signal="shield_changed" from="Player" to="HUD" method="update_shield"]
 [connection signal="shoot" from="Player" to="." method="_on_Player_shoot"]
 [connection signal="timeout" from="EnemyTimer" to="." method="_on_EnemyTimer_timeout"]

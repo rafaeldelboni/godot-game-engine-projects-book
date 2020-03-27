@@ -1,10 +1,13 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://assets/kenvector_future_thin.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://assets/player_small.png" type="Texture" id=2]
 [ext_resource path="res://assets/play_button.png" type="Texture" id=3]
 [ext_resource path="res://assets/play_button_h.png" type="Texture" id=4]
 [ext_resource path="res://ui/HUD.gd" type="Script" id=5]
+[ext_resource path="res://assets/barHorizontal_green_mid 200.png" type="Texture" id=6]
+[ext_resource path="res://assets/glassPanel_200.png" type="Texture" id=7]
+[ext_resource path="res://assets/shield_gold.png" type="Texture" id=8]
 
 [sub_resource type="DynamicFont" id=1]
 size = 64
@@ -35,11 +38,32 @@ margin_right = 1004.0
 margin_bottom = 92.0
 
 [node name="ScoreLabel" type="Label" parent="MarginContainer/HBoxContainer"]
-margin_right = 858.0
+margin_right = 620.0
 margin_bottom = 72.0
 size_flags_horizontal = 3
 custom_fonts/font = SubResource( 1 )
 text = "0"
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/HBoxContainer"]
+margin_left = 624.0
+margin_top = 21.0
+margin_right = 654.0
+margin_bottom = 51.0
+size_flags_vertical = 4
+texture = ExtResource( 8 )
+
+[node name="ShieldBar" type="TextureProgress" parent="MarginContainer/HBoxContainer"]
+margin_left = 658.0
+margin_top = 23.0
+margin_right = 858.0
+margin_bottom = 49.0
+size_flags_vertical = 4
+value = 100.0
+texture_over = ExtResource( 7 )
+texture_progress = ExtResource( 6 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="LivesCounter" type="HBoxContainer" parent="MarginContainer/HBoxContainer"]
 margin_left = 862.0
