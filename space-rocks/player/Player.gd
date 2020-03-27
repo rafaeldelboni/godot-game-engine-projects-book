@@ -62,9 +62,11 @@ func shoot():
 
 func get_input():
   thrust = Vector2()
+  $Exhaust.emitting = false
   if state in [DEAD, INIT]:
     return
   if Input.is_action_pressed("thrust"):
+    $Exhaust.emitting = true
     thrust = Vector2(engine_power, 0)
     if not $EngineSound.playing:
       $EngineSound.play()
