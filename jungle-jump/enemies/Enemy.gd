@@ -18,7 +18,7 @@ func _physics_process(delta: float) -> void:
 
   velocity = move_and_slide(velocity, Vector2(0, -1))
   for idx in range(get_slide_count()):
-    var collision = get_slide_collision(idx)
+    var collision: KinematicCollision2D = get_slide_collision(idx)
     if collision.collider.name == 'Player':
       collision.collider.hurt()
     if collision.normal.x != 0:
@@ -29,6 +29,5 @@ func _physics_process(delta: float) -> void:
     queue_free()
 
 func _on_AnimationPlayer_animation_finished(animation_name: String) -> void:
-  print('here')
   if animation_name == 'death':
     queue_free()

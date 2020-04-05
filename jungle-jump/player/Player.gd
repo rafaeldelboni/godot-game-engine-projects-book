@@ -3,8 +3,6 @@ extends KinematicBody2D
 signal life_changed
 signal dead
 
-var life
-
 export (int) var run_speed
 export (int) var jump_speed
 export (int) var gravity
@@ -14,6 +12,7 @@ var state: int
 var anim: String
 var new_anim: String
 var velocity: Vector2 = Vector2()
+var life: int
 
 func change_state(new_state: int) -> void:
   state = new_state
@@ -43,9 +42,9 @@ func change_state(new_state: int) -> void:
 func get_input() -> void:
   if state == HURT:
     return
-  var right = Input.is_action_pressed('right')
-  var left = Input.is_action_pressed('left')
-  var jump = Input.is_action_just_pressed('jump')
+  var right: bool = Input.is_action_pressed('right')
+  var left: bool = Input.is_action_pressed('left')
+  var jump: bool = Input.is_action_just_pressed('jump')
 
   velocity.x = 0
   if right:
@@ -94,11 +93,11 @@ func _physics_process(delta: float) -> void:
   if state == HURT:
     return
   for idx in range(get_slide_count()):
-    var collision = get_slide_collision(idx)
+    var collision: KinematicCollision2D = get_slide_collision(idx)
     if collision.collider.name == 'Danger':
       hurt()
     if collision.collider.is_in_group('enemies'):
-      var player_feet = (position + $CollisionShape2D.shape.extents).y
+      var player_feet: float = (position + $CollisionShape2D.shape.extents).y
       if player_feet < collision.collider.position.y:
         collision.collider.take_damage()
         velocity.y = -200
