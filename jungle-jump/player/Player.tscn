@@ -6,7 +6,7 @@
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 4.5, 10.5 )
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=2]
 resource_name = "hurt"
 length = 0.2
 loop = true
@@ -23,8 +23,7 @@ tracks/0/keys = {
 "values": [ 5, 6 ]
 }
 
-[sub_resource type="Animation" id=2]
-resource_name = "idle"
+[sub_resource type="Animation" id=3]
 length = 0.4
 loop = true
 tracks/0/type = "value"
@@ -40,7 +39,7 @@ tracks/0/keys = {
 "values": [ 7, 8, 9, 10 ]
 }
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=4]
 resource_name = "jump_down"
 length = 0.1
 tracks/0/type = "value"
@@ -56,7 +55,7 @@ tracks/0/keys = {
 "values": [ 12 ]
 }
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=5]
 resource_name = "jump_up"
 length = 0.1
 loop = true
@@ -73,8 +72,7 @@ tracks/0/keys = {
 "values": [ 11 ]
 }
 
-[sub_resource type="Animation" id=3]
-resource_name = "run"
+[sub_resource type="Animation" id=6]
 length = 0.6
 loop = true
 tracks/0/type = "value"
@@ -111,12 +109,13 @@ position = Vector2( 0, 5 )
 shape = SubResource( 1 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/hurt = SubResource( 4 )
-anims/idle = SubResource( 2 )
-anims/jump_down = SubResource( 5 )
-anims/jump_up = SubResource( 6 )
-anims/run = SubResource( 3 )
+anims/hurt = SubResource( 2 )
+anims/idle = SubResource( 3 )
+anims/jump_down = SubResource( 4 )
+anims/jump_up = SubResource( 5 )
+anims/run = SubResource( 6 )
 
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true
 zoom = Vector2( 0.4, 0.4 )
+limit_top = 0

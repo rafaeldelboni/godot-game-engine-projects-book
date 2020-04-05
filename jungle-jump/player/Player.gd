@@ -91,3 +91,16 @@ func _physics_process(delta: float) -> void:
     anim = new_anim
     $AnimationPlayer.play(anim)
   velocity = move_and_slide(velocity, Vector2(0, -1))
+  if state == HURT:
+    return
+  for idx in range(get_slide_count()):
+    var collision = get_slide_collision(idx)
+    if collision.collider.name == 'Danger':
+      hurt()
+    if collision.collider.is_in_group('enemies'):
+      var player_feet = (position + $CollisionShape2D.shape.extents).y
+      if player_feet < collision.collider.position.y:
+        collision.collider.take_damage()
+        velocity.y = -200
+      else:
+        hurt()
