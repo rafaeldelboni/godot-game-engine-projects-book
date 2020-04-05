@@ -31,7 +31,7 @@ func _on_Collectible_pickup() -> void:
   emit_signal('score_changed', score)
 
 func _on_Player_dead() -> void:
-  pass
+  print('dead')
 
 func _ready() -> void:
   score = 0
