@@ -9,7 +9,7 @@ var Collectible: PackedScene = preload('res://items/Collectibles.tscn')
 
 onready var pickups: TileMap = $Pickups
 
-func set_camera_limits():
+func set_camera_limits() -> void:
   var map_size: Rect2 = $World.get_used_rect()
   var cell_size: Vector2 = $World.cell_size
   $Player/Camera2D.limit_left = (map_size.position.x - 5) * cell_size.x
@@ -24,14 +24,16 @@ func spawn_pickups() -> void:
       var pos: Vector2 = pickups.map_to_world(cell)
       c.init(type, pos + pickups.cell_size/2)
       add_child(c)
-      c.connect('pickup', self, '_on_Collectible_pickup')
+      var connect_status: int = c.connect('pickup', self, '_on_Collectible_pickup')
+      if connect_status != OK:
+        print("error: ", connect_status)
 
-func _on_Collectible_pickup() -> void:
-  score += 1
+func _on_Collectible_pickup(points: int) -> void:
+  score += points
   emit_signal('score_changed', score)
 
 func _on_Player_dead() -> void:
-  print('dead')
+  GameState.restart()
 
 func _ready() -> void:
   score = 0
