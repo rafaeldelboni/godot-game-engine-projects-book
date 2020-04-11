@@ -23,12 +23,13 @@ __meta__ = {
 margin_left = 50.0
 margin_top = 20.0
 margin_right = 974.0
-margin_bottom = 131.0
+margin_bottom = 153.0
 
 [node name="ScoreLabel" type="Label" parent="HBoxContainer"]
-margin_right = 584.0
+margin_right = 542.0
 margin_bottom = 111.0
 size_flags_horizontal = 3
+size_flags_vertical = 0
 custom_fonts/font = SubResource( 1 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
@@ -37,37 +38,48 @@ custom_constants/shadow_offset_y = 5
 custom_constants/shadow_as_outline = 5
 text = "0
 "
+percent_visible = -1.0
 
 [node name="LifeCounter" type="HBoxContainer" parent="HBoxContainer"]
-margin_left = 588.0
-margin_right = 924.0
-margin_bottom = 111.0
+margin_left = 546.0
+margin_right = 882.0
+margin_bottom = 133.0
 
 [node name="L1" type="TextureRect" parent="HBoxContainer/LifeCounter"]
 margin_right = 64.0
-margin_bottom = 111.0
+margin_bottom = 133.0
 texture = ExtResource( 2 )
 
 [node name="L2" type="TextureRect" parent="HBoxContainer/LifeCounter"]
 margin_left = 68.0
 margin_right = 132.0
-margin_bottom = 111.0
+margin_bottom = 133.0
 texture = ExtResource( 2 )
 
 [node name="L3" type="TextureRect" parent="HBoxContainer/LifeCounter"]
 margin_left = 136.0
 margin_right = 200.0
-margin_bottom = 111.0
+margin_bottom = 133.0
 texture = ExtResource( 2 )
 
 [node name="L4" type="TextureRect" parent="HBoxContainer/LifeCounter"]
 margin_left = 204.0
 margin_right = 268.0
-margin_bottom = 111.0
+margin_bottom = 133.0
 texture = ExtResource( 2 )
 
 [node name="L5" type="TextureRect" parent="HBoxContainer/LifeCounter"]
 margin_left = 272.0
 margin_right = 336.0
-margin_bottom = 111.0
+margin_bottom = 133.0
 texture = ExtResource( 2 )
+
+[node name="Fps" type="Label" parent="HBoxContainer"]
+margin_left = 886.0
+margin_right = 924.0
+margin_bottom = 133.0
+size_flags_vertical = 1
+text = "Fps: 0"
+align = 1
+valign = 3
+uppercase = true

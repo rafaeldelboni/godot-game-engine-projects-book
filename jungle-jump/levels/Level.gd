@@ -6,8 +6,8 @@ signal score_changed
 
 var score: int
 var Collectible: PackedScene = preload('res://items/Collectibles.tscn')
-
 onready var pickups: TileMap = $Pickups
+onready var fps_label = $CanvasLayer/HUD/HBoxContainer/Fps
 
 func set_camera_limits() -> void:
   var map_size: Rect2 = $World.get_used_rect()
@@ -46,3 +46,6 @@ func _ready() -> void:
     add_child(s)
   set_camera_limits()
   spawn_pickups()
+
+func _process(_delta):
+  fps_label.set_text(str('fps: ', Engine.get_frames_per_second()))

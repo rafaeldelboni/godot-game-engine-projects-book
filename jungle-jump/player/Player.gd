@@ -89,7 +89,8 @@ func _physics_process(delta: float) -> void:
   if new_anim != anim:
     anim = new_anim
     $AnimationPlayer.play(anim)
-  velocity = move_and_slide(velocity, Vector2(0, -1))
+  # velocity = move_and_slide(velocity, Vector2(0, -1))
+  velocity = move_and_slide_with_snap(velocity, Vector2.ZERO, Vector2(0, -1), true, 4, deg2rad(45), true)
   if state == HURT:
     return
   for idx in range(get_slide_count()):
