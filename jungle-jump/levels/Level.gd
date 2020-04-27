@@ -49,3 +49,6 @@ func _ready() -> void:
 
 func _process(_delta):
   fps_label.set_text(str('fps: ', Engine.get_frames_per_second()))
+
+func _on_Door_body_entered(_body: Node2D) -> void:
+  GameState.next_level()
