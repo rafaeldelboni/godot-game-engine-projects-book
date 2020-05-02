@@ -7,6 +7,7 @@ var velocity: Vector2 = Vector2()
 var facing: float = 1
 
 func take_damage() -> void:
+  $HurtSound.play()
   $AnimationPlayer.play('death')
   $CollisionShape2D.disabled = true
   set_physics_process(false)

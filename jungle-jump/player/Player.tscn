@@ -1,7 +1,9 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://assets/player_sheet.png" type="Texture" id=1]
 [ext_resource path="res://player/Player.gd" type="Script" id=2]
+[ext_resource path="res://assets/audio/hurt1.ogg" type="AudioStream" id=3]
+[ext_resource path="res://assets/audio/jump4.ogg" type="AudioStream" id=4]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 4.5, 10.5 )
@@ -119,3 +121,11 @@ anims/run = SubResource( 6 )
 current = true
 zoom = Vector2( 0.4, 0.4 )
 limit_top = 0
+
+[node name="HurtSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 3 )
+volume_db = -15.0
+
+[node name="JumpSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 4 )
+volume_db = -25.0

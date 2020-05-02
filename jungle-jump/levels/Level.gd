@@ -30,6 +30,7 @@ func spawn_pickups() -> void:
 
 func _on_Collectible_pickup(points: int) -> void:
   score += points
+  $PickupSound.play()
   emit_signal('score_changed', score)
 
 func _on_Player_dead() -> void:

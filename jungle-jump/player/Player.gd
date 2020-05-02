@@ -27,6 +27,7 @@ func change_state(new_state: int) -> void:
       new_anim = 'jump_up'
     HURT:
       new_anim = 'hurt'
+      $HurtSound.play()
       velocity.y = -200
       velocity.x = -100 * sign(velocity.x)
       life -= 1
@@ -55,6 +56,7 @@ func get_input() -> void:
     $Sprite.flip_h = true
   if jump and is_on_floor():
     change_state(JUMP_UP)
+    $JumpSound.play()
     velocity.y = jump_speed
   if state == IDLE and velocity.x != 0:
     change_state(RUN)
