@@ -4,15 +4,21 @@ signal life_changed
 signal dead
 
 export (int) var run_speed
+export (int) var climb_speed
 export (int) var jump_speed
 export (int) var gravity
 
-enum {IDLE, RUN, JUMP_DOWN, JUMP_UP, HURT, DEAD}
+enum {IDLE, RUN, JUMP_DOWN, JUMP_UP, DOUBLE_JUMP, HURT, DEAD, CROUCH, CLIMB}
 var state: int
 var anim: String
 var new_anim: String
 var velocity: Vector2 = Vector2()
 var life: int
+
+var max_jumps: int = 2
+var jump_count: int = 0
+
+var is_on_ladder: bool = false
 
 func change_state(new_state: int) -> void:
   state = new_state
@@ -25,6 +31,10 @@ func change_state(new_state: int) -> void:
       new_anim = 'jump_down'
     JUMP_UP:
       new_anim = 'jump_up'
+      jump_count = 1
+    DOUBLE_JUMP:
+      new_anim = 'jump_up'
+      jump_count += 1
     HURT:
       new_anim = 'hurt'
       $HurtSound.play()
@@ -39,12 +49,18 @@ func change_state(new_state: int) -> void:
     DEAD:
       emit_signal('dead')
       hide()
+    CROUCH:
+      new_anim = 'crouch'
+    CLIMB:
+      new_anim = 'climb'
 
 func get_input() -> void:
   if state == HURT:
     return
   var right: bool = Input.is_action_pressed('right')
   var left: bool = Input.is_action_pressed('left')
+  var down: bool = Input.is_action_pressed('crouch')
+  var climb: bool = Input.is_action_pressed('climb')
   var jump: bool = Input.is_action_just_pressed('jump')
 
   velocity.x = 0
@@ -54,11 +70,29 @@ func get_input() -> void:
   if left:
     velocity.x -= run_speed
     $Sprite.flip_h = true
+  if down and is_on_floor():
+    change_state(CROUCH)
+  if !down and state == CROUCH:
+    change_state(IDLE)
+  if jump and state in [JUMP_DOWN, JUMP_UP] and jump_count < max_jumps:
+    change_state(DOUBLE_JUMP)
+    velocity.y = jump_speed / 1.5
   if jump and is_on_floor():
     change_state(JUMP_UP)
     $JumpSound.play()
     velocity.y = jump_speed
-  if state == IDLE and velocity.x != 0:
+  if climb and state != CLIMB and is_on_ladder:
+    change_state(CLIMB)
+  if state == CLIMB:
+    if climb:
+      velocity.y = -climb_speed
+    elif down:
+      velocity.y = climb_speed
+    else:
+      velocity.y = 0
+  if state == CLIMB and not is_on_ladder:
+    change_state(IDLE)
+  if state in [IDLE, CROUCH] and velocity.x != 0:
     change_state(RUN)
   if state == RUN and velocity.x == 0:
     change_state(IDLE)
@@ -66,9 +100,10 @@ func get_input() -> void:
     change_state(JUMP_DOWN)
   if state in [JUMP_DOWN, JUMP_UP] and is_on_floor():
     change_state(IDLE)
+    $Dust.emitting = true
   if state in [JUMP_DOWN, JUMP_UP] and velocity.y < 0:
     change_state(JUMP_UP)
-  if state in [JUMP_DOWN, JUMP_UP] and velocity.y > 0:
+  if state in [JUMP_DOWN, JUMP_UP, DOUBLE_JUMP] and velocity.y > 0:
     change_state(JUMP_DOWN)
 
 func hurt() -> void:
@@ -86,12 +121,14 @@ func _ready() -> void:
   change_state(IDLE)
 
 func _physics_process(delta: float) -> void:
-  velocity.y += gravity * delta
+  if state != CLIMB:
+    velocity.y += gravity * delta
   get_input()
   if new_anim != anim:
     anim = new_anim
     $AnimationPlayer.play(anim)
-  # velocity = move_and_slide(velocity, Vector2(0, -1))
+  if position.y > 1000:
+    change_state(DEAD)
   velocity = move_and_slide_with_snap(velocity, Vector2.ZERO, Vector2(0, -1), true, 4, deg2rad(45), true)
   if state == HURT:
     return

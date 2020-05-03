@@ -53,3 +53,9 @@ func _process(_delta):
 
 func _on_Door_body_entered(_body: Node2D) -> void:
   GameState.next_level()
+
+func _on_Ladder_body_entered(body: Node2D) -> void:
+  body.is_on_ladder = true
+
+func _on_Ladder_body_exited(body: Node2D) -> void:
+  body.is_on_ladder = false

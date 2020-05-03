@@ -24,3 +24,6 @@ position = Vector2( 432, 352 )
 
 [node name="Door" parent="." index="8"]
 position = Vector2( 1584, 272 )
+
+[node name="CollisionShape2D" parent="Ladder" index="0"]
+position = Vector2( 24, 236 )
