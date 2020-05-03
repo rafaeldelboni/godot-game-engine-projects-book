@@ -1,0 +1,42 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://assets/course_tiles1.tres" type="MeshLibrary" id=1]
+[ext_resource path="res://Ball.tscn" type="PackedScene" id=2]
+
+[sub_resource type="Environment" id=1]
+ambient_light_color = Color( 0.988235, 0.929412, 0.0156863, 1 )
+
+[sub_resource type="SphereShape" id=2]
+radius = 0.232694
+
+[node name="Main" type="Node"]
+
+[node name="GridMap" type="GridMap" parent="."]
+mesh_library = ExtResource( 1 )
+data = {
+"cells": PoolIntArray( 0, 0, 3, 1, 0, 1441804, 2, 0, 1441804, 3, 0, 1441803, 65533, 0, 1048582, 65534, 0, 1441804, 65535, 0, 1441804, 0, 1, 655372, 0, 2, 655372, 0, 3, 655372, 0, 4, 655372, 0, 5, 655366 )
+}
+__meta__ = {
+"_editor_clip_": 0
+}
+
+[node name="Camera" type="Camera" parent="."]
+transform = Transform( 1, 0, 0, 0, -1.62921e-07, 1, 0, -1, -1.62921e-07, 0.950085, 12.2759, 5.9604 )
+current = true
+fov = 82.0666
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource( 1 )
+
+[node name="Tee" type="Position3D" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.00078, 1.5885, 10.7683 )
+
+[node name="Ball" parent="." instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.00196, 1.31553, 2.85394 )
+
+[node name="Hole" type="Area" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.0371275 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Hole"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 7.41263, 0.629493, 1.02767 )
+shape = SubResource( 2 )
