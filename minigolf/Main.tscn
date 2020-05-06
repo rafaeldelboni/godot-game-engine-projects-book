@@ -1,15 +1,30 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://assets/course_tiles1.tres" type="MeshLibrary" id=1]
 [ext_resource path="res://Ball.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Arrow.tscn" type="PackedScene" id=3]
 [ext_resource path="res://UI.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Main.gd" type="Script" id=5]
+[ext_resource path="res://GimbalOut.gd" type="Script" id=6]
 
-[sub_resource type="Environment" id=1]
-ambient_light_color = Color( 0.996078, 0.996078, 0.768627, 1 )
+[sub_resource type="BoxShape" id=1]
 
-[sub_resource type="SphereShape" id=2]
+[sub_resource type="ProceduralSky" id=2]
+radiance_size = 3
+sky_energy = 2.0
+ground_bottom_color = Color( 0.164706, 0.211765, 0.156863, 1 )
+sun_color = Color( 1, 0.913725, 0, 1 )
+
+[sub_resource type="Environment" id=3]
+background_mode = 2
+background_sky = SubResource( 2 )
+background_color = Color( 1, 1, 1, 1 )
+ambient_light_color = Color( 0.976471, 0.960784, 0.960784, 1 )
+ssao_enabled = true
+ssao_light_affect = 1.0
+ssao_edge_sharpness = 1.0
+
+[sub_resource type="SphereShape" id=4]
 radius = 0.232694
 
 [node name="Main" type="Node"]
@@ -27,13 +42,20 @@ __meta__ = {
 "_editor_clip_": 0
 }
 
-[node name="Camera" type="Camera" parent="."]
-transform = Transform( 1, 0, 0, 0, -1.62921e-07, 1, 0, -1, -1.62921e-07, 0.950085, 12.2759, 5.9604 )
+[node name="Camera2" type="Camera" parent="."]
+transform = Transform( -1.62921e-07, -0.707107, 0.707107, 0, 0.707107, 0.707107, -1, 1.15202e-07, -1.15202e-07, 8.43373, 4.39377, 0.898772 )
 current = true
-fov = 82.0666
+
+[node name="Camera2Area" type="Area" parent="Camera2"]
+collision_layer = 8
+collision_mask = 2
+
+[node name="CollisionShape" type="CollisionShape" parent="Camera2/Camera2Area"]
+transform = Transform( 2, 0, 0, 0, 3, 0, 0, 0, 4, 0, 0, -4 )
+shape = SubResource( 1 )
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource( 1 )
+environment = SubResource( 3 )
 
 [node name="Tee" type="Position3D" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.00078, 1.5885, 10.7683 )
@@ -48,11 +70,34 @@ collision_layer = 4
 collision_mask = 2
 
 [node name="CollisionShape" type="CollisionShape" parent="Hole"]
-shape = SubResource( 2 )
+shape = SubResource( 4 )
 __meta__ = {
 "_edit_group_": true
 }
 
 [node name="Arrow" parent="." instance=ExtResource( 3 )]
+
+[node name="GimbalOut" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.23874, 10.3111, 5.84599 )
+script = ExtResource( 6 )
+
+[node name="GimbalIn" type="Spatial" parent="GimbalOut"]
+transform = Transform( 1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 0, 0 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Camera" type="Camera" parent="GimbalOut/GimbalIn"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10 )
+current = true
+fov = 82.0666
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="DirectionalLight" type="DirectionalLight" parent="."]
+transform = Transform( 0.80537, 0.484572, -0.341423, 0, 0.575976, 0.817467, 0.592772, -0.658363, 0.463874, -3.94007, 15.0549, 8.87678 )
+shadow_enabled = true
+[connection signal="body_entered" from="Camera2/Camera2Area" to="." method="_on_Camera2Area_body_entered"]
 [connection signal="stopped" from="Ball" to="." method="_on_Ball_stopped"]
 [connection signal="body_entered" from="Hole" to="." method="_on_Hole_body_entered"]

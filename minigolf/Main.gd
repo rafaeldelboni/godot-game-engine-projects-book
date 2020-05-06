@@ -51,6 +51,7 @@ func animate_power_bar(delta):
 
 func _ready():
   $Arrow.hide()
+  $GimbalOut/GimbalIn/Camera.current = true
   $Ball.transform.origin = $Tee.transform.origin
   change_state(SET_ANGLE)
 
@@ -73,6 +74,7 @@ func _process(delta):
       animate_power_bar(delta)
     SHOOT:
       pass
+  $GimbalOut.transform.origin = $Ball.transform.origin
 
 func _on_Hole_body_entered(body):
   print("Win!", body)
@@ -81,3 +83,7 @@ func _on_Hole_body_entered(body):
 func _on_Ball_stopped():
   if state == SHOOT:
     change_state(SET_ANGLE)
+
+func _on_Camera2Area_body_entered(_body):
+  print(_body)
+  $Camera2.current = true
